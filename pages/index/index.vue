@@ -7,7 +7,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-blue" :isBack="false">
 			<!-- <block slot="backText">返回</block> -->
-			<block slot="content">医依</block>
+			<block slot="content">WIFI管理</block>
 		</cu-custom>
 
 		<!-- 收藏小提示 -->
@@ -21,9 +21,10 @@
 				<view class="page-section-spacing">
 					<swiper class="swiper" circular="true" indicator-dots="true" autoplay="true" interval="3500"
 						duration="600">
-						<swiper-item class="swiper-list" v-for="(item, index) in bannerList" :key="index">
+						<swiper-item class="swiper-list" v-for="(item, index) in 2" :key="index">
 							<view class="swiper-item uni-bg-red">
-								<image class="swiper-img" :src="item.imageUrl" mode=""></image>
+								<!-- <image class="swiper-img" :src="item.imageUrl" mode=""></image> -->
+									<image class="swiper-img" src="../../static/img/ads.jpeg"></image>
 							</view>
 						</swiper-item>
 					</swiper>
@@ -33,7 +34,7 @@
 
 		<!-- 通告栏 -->
 		<uni-notice-bar showClose="true" showIcon="true" color="#87CEFF" scrollable="true" single="true"
-			text="[通知] 欢迎使用我们的软件"></uni-notice-bar>
+			text="[通知] 欢迎使用本系统 老铁666"></uni-notice-bar>
 
 		<!-- 导航栏 -->
 		<!-- <view class="cu-list grid solids-bottom col-4 no-border">
@@ -132,13 +133,13 @@
 				],
 
 				numList: [{
-						name: '病理参数'
+						name: '报表数据'
 					},
 					{
-						name: '事件管理'
+						name: '绑定关系'
 					},
 					{
-						name: '事件报表'
+						name: '积分查询'
 					}
 				],
 				num: -1,
@@ -176,16 +177,16 @@
 				// ],
 
 				curriculum: [{
-						name: '病理参数',
-						content: '主要负责记录生理参数...',
+						name: '报表数据',
+						content: '查看扫码数据...',
 					},
 					{
-						name: '事件管理',
-						content: '主要负责记录各种病人的事件...',
+						name: '绑定关系',
+						content: '查看上下级关系...',
 					},
 					{
-						name: '事件报表',
-						content: '可查询不同事件病人的事件情况...',
+						name: '积分查询',
+						content: '查询积分余额...',
 					}
 				]
 			}

@@ -23,9 +23,9 @@
 			<scroll-view scroll-y class="page">
 				<!-- 头像和文字部分 -->
 				<view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
-					<image src="https://cdn.jsdelivr.net/gh/Dorian1015/cdn/img/custom/tuxiang.jpg" mode='aspectFit'
+					<image src="../../static/img/wifis.jpeg" mode='aspectFit'
 						class="zai-logo "></image>
-					<view class="zai-title text-shadow ">医 依</view>
+					<view class="zai-title text-shadow ">WIFI管理</view>
 
 					<!-- 欢迎登录 -->
 					<view class="cu-bar ">
@@ -65,7 +65,7 @@
 									space="emsp">{{loading ? "登录中...":" 登录 "}}</text>
 							</button>
 							<button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
-								:class="[shape=='round'?'round':'']" @tap="loginWay=3-loginWay">短信注册
+								:class="[shape=='round'?'round':'']" @tap="loginWay=3-loginWay">注册
 							</button>
 						</view>
 
@@ -107,10 +107,6 @@
 
 						<!-- 登录按钮 -->
 						<view class="padding text-center margin-top">
-							<button class="cu-btn bg-blue lg margin-right shadow" :loading="loading"
-								:class="[shape=='round'?'round':'']" @tap="onSMSLogin"><text
-									space="emsp">{{loading ? "注册中...":" 注册 "}}</text>
-							</button>
 							<button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
 								:class="[shape=='round'?'round':'']" @tap="loginWay=1">账号登录
 							</button>
@@ -251,6 +247,9 @@
 
 			// 账号密码登录请求
 			onLogin: function() {
+				uni.switchTab({
+							url: '../index/index'
+						})
 				if (!this.user.account || this.user.account.length == 0) {
 					this.$tip.toast('请填写用户名');
 					return;
@@ -260,17 +259,15 @@
 					return;
 				}
 				let loginParams = {
-					account: this.user.account,
+					userName: this.user.account,
 					password: this.user.password
 				}
 				this.loading = true;
 
 				const _this = this // 获取此时的this为一个常量，防止下面请求回调改变出错
-				console.log("表单提交")
-
 				// 登录跳转
 				this.$myRequest({
-					url: '/uniappuser/login',
+					url: '/login',
 					method: 'POST',
 					data: loginParams, // 发送的数据
 
@@ -309,41 +306,10 @@
 			},
 
 
-
-			saveClientId() {
-				var info = plus.push.getClientInfo();
-				var cid = info.clientid;
-				this.$http.get("/sys/user/saveClientId", {
-					params: {
-						clientId: cid
-					}
-				}).then(res => {
-					console.log("res::saveClientId>", res)
-					this.$tip.success('登录成功!')
-					this.$Router.replaceAll({
-						name: 'index'
-					})
-				})
-			},
 			changePassword() {
 				this.showPassword = !this.showPassword;
 			},
 
-			// 手机号注册
-			onSMSSend() {
-				let smsParams = {};
-				smsParams.account = this.user.account;
-				smsParams.password = "0";
-				let checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
-				if (!smsParams.account || smsParams.account.length == 0) {
-					this.$tip.toast('请输入手机号');
-					return false
-				}
-				if (!checkPhone.test(smsParams.account)) {
-					this.$tip.toast('请输入正确的手机号');
-					return false
-				}
-			},
 			startSMSTimer() {
 				this.smsCountInterval = setInterval(() => {
 					this.smsCountDown--;
@@ -352,146 +318,6 @@
 					}
 				}, 1000);
 			},
-			// 手机号注册
-			onSMSLogin() {
-				let checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
-
-				if (!this.user.account || this.user.account.length == 0) {
-					this.$tip.toast('请填写手机号');
-					return;
-				}
-				if (!checkPhone.test(this.user.account)) {
-					this.$tip.toast('请输入正确的手机号');
-					return false
-				}
-				if (!this.user.password || this.user.password.length == 0) {
-					this.$tip.toast('请填密码');
-					return;
-				}
-
-				let loginParams = {
-					account: this.user.account,
-					password: this.user.password
-				}
-				this.loading = true;
-
-				const _this = this // 获取此时的this为一个常量，防止下面请求回调改变出错
-				console.log("表单提交")
-
-				// 注册跳转
-				this.$myRequest({
-					url: '/uniappuser/add',
-					method: 'POST',
-					data: loginParams, // 发送的数据
-
-				}).then((res) => {
-					console.log(res)
-					this.loading = false;
-					if (res.data.code === 20000) { // 获取数据成功
-						console.log("成功")
-						uni.setStorageSync('token', res.data.data.token); // 将登录信息以token的方式存在手机硬盘中
-
-						// 发送info的请求
-						// this.$myRequest({
-						// 	url: '/pcuser/info?token=' + uni.getStorageSync('token'),
-						// 	method: 'GET',
-						// 	data: uni.getStorageSync('token'), // 发送的数据
-
-						// })
-						console.log("token====>" + res.data.data.token)
-						// page.onLoad();
-						this.$tip.success('注册成功!')
-						this.infoid = res.data.data
-						console.log("user_id===>"+this.infoid.id)
-						
-						
-						// 添加一条膀胱动力学参数的值
-						this.$myRequest({
-							url: '/bladderData/id?id='+this.infoid.id,
-							method: 'POST',
-							data: _this.info,
-						})
-						
-						// 添加一条尿常规参数的值
-						this.$myRequest({
-							url: '/urineData/id?id='+this.infoid.id,
-							method: 'POST',
-							data: _this.info,
-						})
-						
-						// 添加一条输尿管B超参数的值
-						this.$myRequest({
-							url: '/ureteralData/id?id='+this.infoid.id,
-							method: 'POST',
-							data: _this.info,
-						})
-						
-						// 添加一条肾功能参数的值
-						this.$myRequest({
-							url: '/renalData/id?id='+this.infoid.id,
-							method: 'POST',
-							data: _this.info,
-						})
-					} else if (res.data.code === 500) { // 获取数据失败
-						console.log("失败")
-						this.loading = false;
-						this.$tip.alert(res.data.message);
-					}
-				})
-
-				// 	// 登录跳转
-				// 	this.$myRequest({
-				// 		url: '/uniappuser/add',
-				// 		method: 'POST',
-				// 		data: loginParams, // 发送的数据
-
-				// 	}).then((res) => {
-				// 		console.log(res)
-				// 		this.loading = false;
-				// 		if (res.data.code === 20000) { // 获取数据成功
-				// 			console.log("成功")
-				// 			// uni.setStorageSync('token', res.data.data.token); // 将登录信息以token的方式存在手机硬盘中
-				// 			// console.log("token" + res.data.data.token)
-				// 			page.onLoad();
-				// 			this.$tip.success('注册成功!')
-				// 			// uni.switchTab({
-				// 			// 	url: ''
-				// 			// })
-				// 		} else if (res.data.code === 500) { // 获取数据失败
-				// 			console.log("失败")
-				// 			this.loading = false;
-				// 			this.$tip.alert(res.data.message);
-				// 		}
-				// 	}).catch((err) => {
-				// 		let msg = "请求出现错误，请稍后再试"
-				// 		this.loading = false;
-				// 		this.$tip.alert(msg);
-				// 	}).finally(() => {
-				// 		this.loading = false;
-				// 	})
-
-			},
-
-
-			// 	let loginParams = {
-			// 		mobile: this.phoneNo,
-			// 		captcha: this.smsCode
-			// 	};
-			// 	this.PhoneLogin(loginParams).then((res) => {
-			// 		console.log("res====》", res)
-			// 		if (res.data.success) {
-			// 			this.$tip.success('登录成功!')
-			// 			this.$Router.replaceAll({
-			// 				name: 'index'
-			// 			})
-			// 		} else {
-			// 			this.$tip.error(res.data.message);
-			// 		}
-			// 	}).catch((err) => {
-			// 		let msg = ((err.response || {}).data || {}).message || err.data.message || "请求出现错误，请稍后再试"
-			// 		this.$tip.error(msg);
-			// 	});
-			// },
 			loginSuccess() {
 				// 登陆成功，重定向到主页
 				this.$Router.replace({
@@ -552,7 +378,8 @@
 	.zai-logo {
 		width: 200upx;
 		// height: 150px;
-		height: 94px;
+		height: 200upx;
+		border-radius: 50%;
 	}
 
 	.zai-title {

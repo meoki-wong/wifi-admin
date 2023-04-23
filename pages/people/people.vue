@@ -208,7 +208,7 @@
 				</view> -->
 
 				<!-- 技术支持 -->
-				<view class="cu-item" @click="callPhoneNumber" data-number="15178672798"
+				<view class="cu-item" data-number="1084415961"
 					:style="[{animation: 'show ' + 0.6+ 's 1'}]">
 					<view class='content'>
 						<image src='../../static/me/icon/dengta.png' class='png' mode='aspectFit'></image>
@@ -223,23 +223,23 @@
 				<view class="cu-item" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
 					<button class='content cu-btn' open-type="feedback">
 						<image src='../../static/me/icon/chucuo.png' class='png' mode='aspectFit'></image>
-						<text class='text-lg margin-sm'>问题反馈</text>
+						<text class='text-lg margin-sm'>绑定赋权</text>
 					</button>
 				</view>
 				
 				<!-- 关于作者 -->
-				<view class="cu-item" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
+				<!-- <view class="cu-item" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
 					<button class='content cu-btn' @click="goAboutMe">
 						<image src='../../static/me/icon/xiaoxi.png' class='png' mode='aspectFit'></image>
 						<text class='text-lg margin-sm'>关于作者</text>
 					</button>
-				</view>
+				</view> -->
 				
 				<!-- 设置 -->
 				<view class="cu-item" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
 					<button class='content cu-btn' @click="goSetting">
 						<image src='../../static/me/icon/shezhi.png' class='png' mode='aspectFit'></image>
-						<text class='text-lg margin-sm'>设置</text>
+						<text class='text-lg margin-sm'>信息设置</text>
 					</button>
 				</view>
 				
