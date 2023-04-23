@@ -62,15 +62,15 @@
 
 					<!-- 头像和姓名 -->
 					<view class="cu-avatar2 round xl margin-right-sm shadow-blur-lg bg-img open-data"
-						:style="[{ backgroundImage:'url(' + info.avatar + ')' }]">
-						<view class="cu-tag badge" :class="info.sex%2==0?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
+						:style="[{ backgroundImage:'url(' + '../../static/img/user-header.jpeg' + ')' }]">
+						<view class="cu-tag badge" :class="info.sexy%2==0?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
 						<!-- https://cdn.jsdelivr.net/gh/Dorian1015/cdn/img/custom/tuxiang.jpg -->
 						<!-- <open-data type="userAvatarUrl"></open-data> -->
 						<!-- style="overflow: hidden;background-image:url(info.avatar);"-->
 					</view>
 
 					<view class="padding text-blue text-xl text-bold">
-						你好，{{info.name}}
+						你好，{{info.userName}}
 						<!-- <open-data type="userNickName"></open-data> -->
 					</view>
 
@@ -219,6 +219,18 @@
 					</view>
 				</view>
 
+				<view class="cu-item" data-number="1084415961"
+					:style="[{animation: 'show ' + 0.6+ 's 1'}]"
+					@tap="copy">
+					<view class='content'>
+						<image src='../../static/me/icon/dengta.png' class='png' mode='aspectFit'></image>
+						<text class='text-lg margin-sm'>角色账号</text>
+					</view>
+					<view class="action">
+						<view class="cu-tag round bg-blue light">{{roleNumber}}</view>
+					</view>
+				</view>
+
 				<!-- 问题反馈 -->
 				<view class="cu-item" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
 					<button class='content cu-btn' open-type="feedback">
@@ -321,7 +333,8 @@
 					title: 'theme',
 					name: '流星之夜',
 					color: ''
-				}]
+				}],
+				roleNumber: ""
 			}
 		},
 		// 分享小程序
@@ -341,6 +354,7 @@
 			}
 		},
 		mounted() {
+			this.roleNumber = uni.getStorageSync('userInfo').uuid
 			// uni.showToast({
 			//     title: '暂未开放,敬请期待',
 			// 	icon: 'none',
@@ -368,35 +382,9 @@
 			
 			//获取用户信息
 			// 获取用户id====>根据id获取信息
-			async getinfoid(){
-				const res = await this.$myRequest({
-					// url: '/uniappuser/id?limit=1&page=1&sort=1&id='+ this.infoid.id
-					url: '/uniappuser/info?token=' + uni.getStorageSync('token')
-				})
-				console.log("用户信息")
-				console.log(res)
-				// this.info = res.data.data.items[0]
-				this.infoid = res.data.data
-				console.log("用户id==>"+this.infoid.id)
-				if(this.infoid.id != null) {
-					console.log("进来了")
-					const res1 = await this.$myRequest({
-						url: '/uniappuser/id?limit=1&page=1&sort=1&id='+ this.infoid.id
-					})
-					console.log("用户详情信息")
-					console.log(res1)
-					this.info = res1.data.data.items[0]
-					console.log(res1.data.data.items[0])
-					if (res1.data.data.items[0] != null) {
-						let result = res1.data.data.items[0]
-						this.info.name = result.name == null ? '用户' : result.name
-						// this.info.sex = result.sex === 1 ? '男' : '女'
-						this.info.birthday = result.birthday == null ? '无' : result.birthday
-						this.info.account = result.account == null ? '无' : result.account
-						this.info.mobile = result.mobile == null ? '无' : result.mobile
-						this.info.email = result.email == null ? '无' : result.email
-					}
-				}
+			getinfoid(){
+				this.info = uni.getStorageSync('userInfo')
+				console.log('----info', this.info);
 			},
 
 			switchImage(index, name) {
@@ -413,6 +401,17 @@
 				uni.navigateTo({
 					url: '../me/mentalTest/list'
 				})
+			},
+			copy(){
+				uni.setClipboardData({
+					data: this.roleNumber,
+					success: (res) => {
+						this.$tip.success('复制成功!')
+					},
+					fail: (res) => {
+						this.$tip.success('复制失败!')
+					},
+				});
 			},
 			//拨打固定电话
 			callPhoneNumber() {

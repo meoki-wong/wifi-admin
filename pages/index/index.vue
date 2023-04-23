@@ -144,45 +144,13 @@
 				],
 				num: -1,
 
-				// 首页导航区
-				// categories: [
-				// 	{
-				// 		cuIcon: 'hotfill',
-				// 		color: 'red',
-				// 		badge: '优惠',
-				// 		mid: '1',
-				// 		name: '学习技术'
-				// 	},
-				// 	{
-				// 		cuIcon: 'colorlens',
-				// 		color: 'orange',
-				// 		badge: 1,
-				// 		mid: '2',
-				// 		name: '需求定制'
-				// 	},
-				// 	{
-				// 		cuIcon: 'goodsnewfill',
-				// 		color: 'yellow',
-				// 		badge: 12,
-				// 		mid: '3',
-				// 		name: '开源项目'
-				// 	},
-				// 	{
-				// 		cuIcon: 'calendar',
-				// 		color: 'cyan',
-				// 		badge: 22,
-				// 		mid: '4',
-				// 		name: '文章资讯'
-				// 	}
-				// ],
-
 				curriculum: [{
 						name: '报表数据',
 						content: '查看扫码数据...',
 					},
 					{
 						name: '绑定关系',
-						content: '查看上下级关系...',
+						content: '查看代理关系...',
 					},
 					{
 						name: '积分查询',

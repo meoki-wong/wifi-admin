@@ -1,7 +1,7 @@
 <!-- 登录页面 v2 版本
-  @author: lijing
-  @email: lijinghailjh@163.com
-  @Date: 2021 7 30
+  @author: meoki
+  @email: 1084415961@163.com
+  @Date: 2023 4 23
 -->
 <template>
 	<view>
@@ -282,6 +282,7 @@
 					if (res.data.code === 200) { // 获取数据成功
 						console.log("成功")
 						uni.setStorageSync('token', res.data.data.token); // 将登录信息以token的方式存在手机硬盘中
+						uni.setStorageSync('userInfo', res.data.data.userInfo); // 将登录信息以token的方式存在手机硬盘中
 
 						// 发送info的请求
 						// this.$myRequest({
