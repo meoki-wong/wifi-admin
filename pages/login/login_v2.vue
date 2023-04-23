@@ -76,7 +76,10 @@
 
 					<!-- 短信登录 -->
 					<block v-else>
-
+						<view class="cu-form-group margin-top  shadow-warp" :class="[shape=='round'?'round':'']">
+							<view class="title"><text class="cuIcon-mobile margin-right-xs"></text>公司(用户)名:</view>
+							<input placeholder="请输入公司或用户名" type="text" maxlength="11" v-model="user.userName"></input>
+						</view>
 						<!-- 手机号输入框 -->
 						<view class="cu-form-group margin-top  shadow-warp" :class="[shape=='round'?'round':'']">
 							<view class="title"><text class="cuIcon-mobile margin-right-xs"></text>手机号:</view>
@@ -93,7 +96,7 @@
 									@click="changePassword"></text>
 							</view>
 						</view>
-
+						
 						<!-- 验证码输入框 -->
 						<!-- <view class="cu-form-group margin-top shadow-warp" :class="[shape=='round'?'round':'']">
 							<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密码:</view>
@@ -107,8 +110,11 @@
 
 						<!-- 登录按钮 -->
 						<view class="padding text-center margin-top">
-							<button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
+							<button v-if="loginWay === 1" class="cu-btn line-blue lg margin-left shadow" :loading="loading"
 								:class="[shape=='round'?'round':'']" @tap="loginWay=1">账号登录
+							</button>
+							<button v-if="loginWay === 2" class="cu-btn line-blue lg margin-left shadow" :loading="loading"
+								:class="[shape=='round'?'round':'']" @tap="reigsterAccount">账号注册
 							</button>
 						</view>
 
@@ -191,7 +197,8 @@
 				},
 				user: {
 					account: '',
-					password: ''
+					password: '',
+					userName: ""
 				},
 				shape: '', //round 圆形
 				loading: false,
@@ -247,9 +254,7 @@
 
 			// 账号密码登录请求
 			onLogin: function() {
-				uni.switchTab({
-							url: '../index/index'
-						})
+				
 				if (!this.user.account || this.user.account.length == 0) {
 					this.$tip.toast('请填写用户名');
 					return;
@@ -259,7 +264,7 @@
 					return;
 				}
 				let loginParams = {
-					userName: this.user.account,
+					telephone: this.user.account,
 					password: this.user.password
 				}
 				this.loading = true;
@@ -274,7 +279,7 @@
 				}).then((res) => {
 					console.log(res)
 					this.loading = false;
-					if (res.data.code === 20000) { // 获取数据成功
+					if (res.data.code === 200) { // 获取数据成功
 						console.log("成功")
 						uni.setStorageSync('token', res.data.data.token); // 将登录信息以token的方式存在手机硬盘中
 
@@ -305,7 +310,35 @@
 
 			},
 
+			async reigsterAccount(){
+				if (!this.user.account || this.user.account.length == 0) {
+					this.$tip.toast('请填写联系方式');
+					return;
+				}
+				if (!this.user.password || this.user.password.length == 0) {
+					this.$tip.toast('请填写密码');
+					return;
+				}
+				if (!this.user.userName || this.user.userName.length == 0) {
+					this.$tip.toast('请填写用户名');
+					return;
+				}
+				let obj = {
+					telephone: this.user.account,
+					password: this.user.password,
+					userName: this.user.userName
+				}
+				let res = await this.$myRequest({
+					url: '/register',
+					method: 'POST',
+					data: obj, // 发送的数据
 
+				})
+				if(res.data.code == 200){
+					this.$tip.toast('注册成功');
+					this.loginWay = 1
+				} 
+			},
 			changePassword() {
 				this.showPassword = !this.showPassword;
 			},
