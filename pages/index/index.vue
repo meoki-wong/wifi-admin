@@ -68,7 +68,7 @@
 		<!-- 步骤条 -->
 		<view class="bg-white padding">
 			<view class="cu-steps">
-				<view class="cu-item" :class="index>num?'':'text-blue'" v-for="(item,index) in numList" :key="index">
+				<view class="cu-item" :class="index>num?'':'text-blue'" v-for="(item,index) in numList" :key="index" v-show="!(item.name=='绑定关系' && role == 2)">
 					<text class="num" :class="index==2?'err':''" :data-index="index + 1"></text> {{item.name}}
 				</view>
 			</view>
@@ -114,7 +114,7 @@
 			return {
 				//当前步骤
 				currentStep: 0,
-
+				role: 0,
 				// 收藏小事讲
 				tip: '点击「添加小程序」，下次访问更便捷',
 				duration: 1,
@@ -161,6 +161,9 @@
 		},
 		onLoad() {
 
+		},
+		onShow(){
+			this.role = uni.getStorageSync('userInfo').role_type
 		},
 		methods: {
 

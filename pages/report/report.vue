@@ -13,37 +13,36 @@
 		
 		
 			<!-- <uni-section :title="'您选择的时间为：' + '[' + datetimerange + ']' " type="line"></uni-section> -->
-			<uni-section title="请选择您要查询的时间" type="line"></uni-section>
+			<!-- <uni-section title="请选择您要查询的时间" type="line"></uni-section>
 			<view class="example-body">
 				<uni-datetime-picker v-model="datetimerange" type="datetimerange" start="2000-3-20 12:00:00"
 					end="2024-3-20 12:00:00" rangeSeparator="至" />
-			</view>
+			</view> -->
 		
 		
 		
-			<uni-section title="餐饮事件" type="line"></uni-section>
+			<uni-section title="当前剩余总积分" type="line"></uni-section>
 			<view>
 				<uni-table border stripe emptyText="暂无更多数据">
 					<!-- 表头行 -->
 					<uni-tr>
-						<uni-th align="center">时间</uni-th>
 						
-						<uni-th align="left">液体摄入量(喝水,ml)</uni-th>
-						<uni-th align="center">摄入液体类型(水/咖啡/苏打水/啤酒等)</uni-th>
+						<uni-th align="left">角色</uni-th>
+						<uni-th align="left">当前账户</uni-th>
+						<uni-th align="center">剩余总积分</uni-th>
 					
 					</uni-tr>
 		
 					<!-- 表格数据行 -->
-					<uni-tr v-for="(item,index) in findlist" :key="id">
-						<uni-td v-if="item.note === '餐饮事件'">
-							{{item.event_time}}
+					<uni-tr>
+						<uni-td>
+							{{userType == 1? "超级用户" : userType == 3? "代理": "商户"}}
 						</uni-td>
-						
-						<uni-td v-if="item.note === '餐饮事件'">
-							{{item.total_capacity}}
+						<uni-td>
+							{{info.userNo}}
 						</uni-td>
-						<uni-td v-if="item.note === '餐饮事件'">
-							{{item.water_code}}
+						<uni-td>
+							{{info.score}}
 						</uni-td>
 						
 		
@@ -54,80 +53,11 @@
 		
 			</view>
 		
-			<uni-section title="导尿事件" type="line"></uni-section>
-			<view>
-				<uni-table border stripe emptyText="暂无更多数据">
-					<!-- 表头行 -->
-					<uni-tr>
-						<uni-th align="center">时间</uni-th>
-						<uni-th align="center">导尿量(ml)</uni-th>
-						<uni-th align="center">排尿前导尿急迫或疼痛(是/否)</uni-th>
-						<uni-th align="left">漏尿状况(是/否)</uni-th>
-						<uni-th align="left">是否插管困难(是/否)</uni-th>
-					</uni-tr>
 		
-					<!-- 表格数据行 -->
-					<uni-tr v-for="(item,index) in findlist" :key="id">
-						<uni-td v-if="item.note === '导尿事件'">
-							{{item.event_time}}
-						</uni-td>
-						<uni-td v-if="item.note === '导尿事件'">
-							{{item.total_capacity}}
-						</uni-td>
-						<uni-td v-if="item.note === '导尿事件'">
-							<view v-if="item.is_pain === 0">
-								否
-							</view>
-							<view v-if="item.is_pain === 1">
-								是
-							</view>
-						</uni-td>
-						<uni-td v-if="item.note === '导尿事件'">
-							<view v-if="item.is_leak === 0">
-								否
-							</view>
-							<view v-if="item.is_leak === 1">
-								是
-							</view>
-						</uni-td>
-						<uni-td v-if="item.note === '导尿事件'">
-							<view v-if="item.is_difficult === 0">
-								否
-							</view>
-							<view v-if="item.is_difficult === 1">
-								是
-							</view>
-						</uni-td>
-					</uni-tr>
-				</uni-table>
-			</view>
-		
-			<uni-section title="特殊事件" type="line"></uni-section>
-			<view>
-				<uni-table border stripe emptyText="暂无更多数据">
-					<!-- 表头行 -->
-					<uni-tr>
-						<uni-th align="center">时间</uni-th>
-						<uni-th align="left">自排/导尿量(ml)</uni-th>
-					</uni-tr>
-		
-					<!-- 表格数据行 -->
-					<uni-tr v-for="(item,index) in findlist" :key="id">
-						<uni-td v-if="item.note === '特殊事件'">
-							{{item.event_time}}
-						</uni-td>
-						<uni-td v-if="item.note === '特殊事件'">
-							{{item.total_capacity}}
-						</uni-td>
-					</uni-tr>
-				</uni-table>
-			</view>
-		
-		
-			<view class="goods-carts">
+			<!-- <view class="goods-carts">
 				<uni-goods-nav :options="options" :fill="true" :button-group="buttonGroup" @click="onClick"
 					@buttonClick="buttonClick" />
-			</view>
+			</view> -->
 		
 		</view>
 	</view>
@@ -147,7 +77,9 @@
 					text: '查询',
 					backgroundColor: '#0392ff',
 					color: '#fff'
-				}]
+				}],
+				info: {},
+				userType: 2
 			}
 		},
 
@@ -159,79 +91,21 @@
 		},
 
 		methods: {
-			buttonClick() {
-				const _this = this;
-
-			// 	this.$myRequest({
-			// 		url: '/events/time?limit=19&page=1&sort=1&time1=' + this.datetimerange[0] + '&time2=' + this
-			// 			.datetimerange[1],
-			// 		method: 'GET',
-			// 		data: _this.findlist, // 发送的数据
-
-			// 	}).then(res => {
-			// 		console.log(res)
-			// 		// success({ // 请求成功
-			// 		// 	data
-			// 		// })
-					
-			// 			if (res.data.code === 20000) { // 获取数据成功
-			// 				console.log("成功")
-			// 				console.log(res)
-			// 				console.log(res.data.code)
-			// 				console.log(res.data)
-			// 				console.log(res.data.data.items)
-			// 				_this.findlist = res.data.data.items
-			// 				uni.showModal({
-			// 					title: '查询成功！！'
-			// 				})
-			// 			} else { // 获取数据失败
-			// 				console.log("失败")
-			// 				uni.showModal({
-			// 					title: '请按要求选择时间！！'
-			// 				})
-			// 			}
-			// 	})
-			// },
-
-			uni.request({
-				// const res = await this.$myRequest({
-				// 路径
-				url: 'http://192.168.43.38:8091/events/time?limit=19&page=1&sort=1&time1=' + this.datetimerange[
-					0] + '&time2=' + this.datetimerange[1],
-				// }),
-				// 请求方法
-				method: 'GET',
-				data: _this.findlist, // 发送的数据
-				success({ // 请求成功
-					data
-				}) {
-					if (data.code == 20000) { // 获取数据成功
-						console.log("成功")
-						console.log(data)
-						console.log(data.code)
-						console.log(data.data)
-						console.log(data.data.items)
-						_this.findlist = data.data.items
-
-						uni.showModal({
-							title: '查询成功！！'
-						})
-					} else { // 获取数据失败
-						console.log("失败")
-						uni.showModal({
-							title: '请按要求选择时间！！'
-						})
-					}
-				},
-				fail: (res) => {
-					console.log("错误")
-				}
+			// 获取当前时间
+			async getData(){
+				let res = await this.$myRequest({
+					url: '/searchScore',
+					method: 'POST',
+					data: {
+						ruleNumber: uni.getStorageSync('userInfo').uuid
+					}, // 发送的数据
 
 				})
-
+				console.log('====inti', res.data);
+				if(res.data.code == 200){
+					this.info = res.data.data
+				}
 			},
-
-			// 获取当前时间
 			getDate(type) {
 				const date = new Date();
 				let year = date.getFullYear();
@@ -258,6 +132,10 @@
 		},
 		onLoad() {
 			// this.getFindList()
+			this.getData()
+		},
+		onShow(){
+			this.userType = uni.getStorageSync('userInfo').role_type
 		}
 	}
 </script>

@@ -36,9 +36,9 @@
 
 		<view>
 			<scroll-view scroll-y class="page">
-				<image src="/static/iu.jpg" mode="widthFix" class="response"></image>
+				<image src="/static/img/ads.jpeg" mode="widthFix" class="response"></image>
 				<view class="nav-list">
-					<navigator hover-class="none" :url="'/pages/bladderData/' + item.name" class="nav-li" navigateTo
+					<navigator hover-class="none" :url="'/pages/ureteralData/' + item.name" class="nav-li" navigateTo
 						:class="'bg-'+item.color" :style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
 						v-for="(item,index) in elements1" :key="index">
 						<view class="nav-title">{{item.title}}</view>
@@ -46,7 +46,7 @@
 						<text :class="'cuIcon-' + item.cuIcon"></text>
 					</navigator>
 
-					<navigator hover-class="none" :url="'/pages/urineData/' + item.name" class="nav-li" navigateTo
+					<navigator hover-class="none" :url="'/pages/ureteralDataweek/' + item.name" class="nav-li" navigateTo
 						:class="'bg-'+item.color" :style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
 						v-for="(item,index) in elements2" :key="index">
 						<view class="nav-title">{{item.title}}</view>
@@ -54,7 +54,7 @@
 						<text :class="'cuIcon-' + item.cuIcon"></text>
 					</navigator>
 
-					<navigator hover-class="none" :url="'/pages/renalData/' + item.name" class="nav-li" navigateTo
+					<navigator hover-class="none" :url="'/pages/ureteralDatamonth/' + item.name" class="nav-li" navigateTo
 						:class="'bg-'+item.color" :style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
 						v-for="(item,index) in elements3" :key="index">
 						<view class="nav-title">{{item.title}}</view>
@@ -62,7 +62,7 @@
 						<text :class="'cuIcon-' + item.cuIcon"></text>
 					</navigator>
 
-					<navigator hover-class="none" :url="'/pages/ureteralData/' + item.name" class="nav-li" navigateTo
+					<navigator hover-class="none" :url="'/pages/ureteralDatayear/' + item.name" class="nav-li" navigateTo
 						:class="'bg-'+item.color" :style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
 						v-for="(item,index) in elements4" :key="index">
 						<view class="nav-title">{{item.title}}</view>
@@ -81,33 +81,33 @@
 		data() {
 			return {
 				elements1: [{
-					title: '膀胱动力',
+					title: '日数据',
 					name: 'index',
-					desc: '膀胱动力学资料',
+					desc: '日数据报表',
 					color: 'cyan',
 					cuIcon: 'newsfill',
 					auth: 'ac'
 				}],
 				elements2: [{
-					title: '尿常规',
+					title: '周数据',
 					name: 'index',
-					desc: '尿常规资料',
+					desc: '周数据报表',
 					color: 'red',
 					cuIcon: 'newsfill',
 					auth: 'ac'
 				}],
 				elements3: [{
-					title: '肾功能',
+					title: '月数据',
 					name: 'index',
-					desc: '肾功能资料',
+					desc: '月数据报表',
 					color: 'orange',
 					cuIcon: 'newsfill',
 					auth: 'ac'
 				}],
 				elements4: [{
-					title: '输尿管B超',
+					title: '年数据',
 					name: 'index',
-					desc: '输尿管B超数据资料',
+					desc: '年数据报表',
 					color: 'pink',
 					cuIcon: 'newsfill',
 					auth: 'ac'

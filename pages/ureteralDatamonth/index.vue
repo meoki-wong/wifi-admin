@@ -125,7 +125,7 @@
 					method: 'POST',
 					data: {
 						topRoleNumber: uni.getStorageSync('userInfo').uuid,
-						timeType: 0 // 日
+						timeType: 2 // 日
 					}, // 发送的数据
 
 				})

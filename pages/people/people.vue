@@ -232,7 +232,7 @@
 				</view>
 
 				<!-- 问题反馈 -->
-				<view class="cu-item" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
+				<view class="cu-item" :style="[{animation: 'show ' + 0.6+ 's 1'}]" @tap="goSetting" v-if="info.role_type != 2">
 					<button class='content cu-btn' open-type="feedback">
 						<image src='../../static/me/icon/chucuo.png' class='png' mode='aspectFit'></image>
 						<text class='text-lg margin-sm'>绑定赋权</text>
@@ -334,7 +334,7 @@
 					name: '流星之夜',
 					color: ''
 				}],
-				roleNumber: ""
+				roleNumber: "",
 			}
 		},
 		// 分享小程序
@@ -362,29 +362,17 @@
 			// });
 		},
 		methods: {
-			
-			//获取用户信息
-			// async getInfo(){
-			// 	const res = await this.$myRequest({
-			// 		// url: '/uniappuser/id?limit=1&page=1&sort=1&id='+ this.infoid.id
-			// 		url: '/uniappuser/info?token=' + uni.getStorageSync('token')
-			// 	})
-			// 	console.log("用户信息")
-			// 	console.log(res)
-			// 	// this.info = res.data.data.items[0]
-			// 	this.info = res.data.data
-			// 	console.log(res.data.data)
-			// 	if (res.data.data != null) {
-			// 		let result = res.data.data
-			// 		this.info.name = result.name == null ? '用户' : result.name
-			// 	}
-			// },
+			goSetting(){
+				if(this.info.role_type == 2) return
+				uni.navigateTo({
+						url: '../manage/manage'
+					})
+			},
 			
 			//获取用户信息
 			// 获取用户id====>根据id获取信息
 			getinfoid(){
 				this.info = uni.getStorageSync('userInfo')
-				console.log('----info', this.info);
 			},
 
 			switchImage(index, name) {

@@ -123,7 +123,28 @@
 		{
 			"path": "pages/ureteralData/index",
 			"style": {
-				"navigationBarTitleText": "输尿管B超数据资料",
+				"navigationBarTitleText": "日报表数据",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/ureteralDataweek/index",
+			"style": {
+				"navigationBarTitleText": "周报表数据",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/ureteralDatamonth/index",
+			"style": {
+				"navigationBarTitleText": "月报表数据",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/ureteralDatayear/index",
+			"style": {
+				"navigationBarTitleText": "年报表数据",
 				"enablePullDownRefresh": true
 			}
 		},

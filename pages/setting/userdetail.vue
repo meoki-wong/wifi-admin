@@ -21,7 +21,7 @@
 						<text class="text-grey">头像</text>
 					</view>
 					<view class="action">
-						<view class="cu-avatar round sm" :style="{backgroundImage: 'url(' + info.avatar + ')'}"></view>
+						<view class="" >默认</view>
 					</view>
 				</view>
 
@@ -31,7 +31,7 @@
 						<text class="text-grey">姓名</text>
 					</view>
 					<view class="action">
-						<text class="text-grey">{{info.name}}</text>
+						<text class="text-grey">{{info.userName}}</text>
 					</view>
 				</view>
 
@@ -41,7 +41,7 @@
 						<text class="text-grey">性别</text>
 					</view>
 					<view class="action">
-						<text class="text-grey">{{info.sex | formatSex}}</text>
+						<text class="text-grey">{{info.sexy | formatSex}}</text>
 						<!-- <text class="text-grey"> -->
 						<!-- <view class="info.sex%2==0?'男':'女'"></view> -->
 						<!-- </text> -->
@@ -54,7 +54,7 @@
 						<text class="text-grey">账号</text>
 					</view>
 					<view class="action">
-						<text class="text-grey">{{info.account}}</text>
+						<text class="text-grey">{{info.uuid}}</text>
 					</view>
 				</view>
 			</view>
@@ -82,17 +82,17 @@
 						<text class="text-grey">注册的手机</text>
 					</view>
 					<view class="action">
-						<text class="text-grey">{{info.mobile}}</text>
+						<text class="text-grey">{{info.telephone}}</text>
 					</view>
 				</view>
 
 				<!-- 邮箱 -->
 				<view class="cu-item animation-slide-bottom" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
 					<view class="content">
-						<text class="text-grey">邮箱</text>
+						<text class="text-grey">地址</text>
 					</view>
 					<view class="action">
-						<text class="text-grey">{{info.email}}</text>
+						<text class="text-grey">{{info.address || '-'}}</text>
 					</view>
 				</view>
 			</view>
@@ -109,11 +109,7 @@
 		data() {
 			return {
 				// 获取用户名称和头像
-				info: [],
-				// 获取用户id
-				infoid: {
-					id: ''
-				},
+				info: {},
 				personalMsg: {
 					avatar: '',
 					realname: '',
@@ -139,60 +135,14 @@
 			// this.loadinfo()
 			this.getinfoid()
 		},
-	
+		onShow(){
+			this.getInfo()
+		},
 		methods: {
 
 			// 获取用户姓名和头像的数据
-			// async getInfo(Myid) {
-			// 	const res = await this.$myRequest({
-			// 		// url: '/uniappuser/info?token=' + uni.getStorageSync('token')
-			// 		url: '/uniappuser/id?limit=1&page=1&sort=1&id='+ Myid
-			// 	})
-			// 	console.log("用户详情信息")
-			// 	console.log(res)
-			// 	// this.info = res.data.data.items[0]
-			// 	this.info = res.data.data
-			// 	console.log(res.data.data)
-			// 	if (res.data.data != null) {
-			// 		let result = res.data.data
-			// 		this.info.name = result.name == null ? '用户' : result.name
-			// 		this.info.account = result.account == null ? '无' : result.account
-			// 		this.info.mobile = result.mobile == null ? '无' : result.mobile
-			// 		this.info.email = result.email == null ? '无' : result.email
-			// 	}
-			// },
-
-			//获取用户信息
-			// 获取用户id====>根据id获取信息
-			async getinfoid(){
-				const res = await this.$myRequest({
-					// url: '/uniappuser/id?limit=1&page=1&sort=1&id='+ this.infoid.id
-					url: '/uniappuser/info?token=' + uni.getStorageSync('token')
-				})
-				console.log("用户信息")
-				console.log(res)
-				// this.info = res.data.data.items[0]
-				this.infoid = res.data.data
-				console.log("用户id==>"+this.infoid.id)
-				if(this.infoid.id != null) {
-					console.log("进来了")
-					const res1 = await this.$myRequest({
-						url: '/uniappuser/id?limit=1&page=1&sort=1&id='+ this.infoid.id
-					})
-					console.log("用户详情信息")
-					console.log(res1)
-					this.info = res1.data.data.items[0]
-					console.log(res1.data.data.items[0])
-					if (res1.data.data.items[0] != null) {
-						let result = res1.data.data.items[0]
-						this.info.name = result.name == null ? '用户' : result.name
-						// this.info.sex = result.sex === 1 ? '男' : '女'
-						this.info.birthday = result.birthday == null ? '无' : result.birthday
-						this.info.account = result.account == null ? '无' : result.account
-						this.info.mobile = result.mobile == null ? '无' : result.mobile
-						this.info.email = result.email == null ? '无' : result.email
-					}
-				}
+			async getInfo(Myid) {
+				this.info = uni.getStorageSync('userInfo')
 			},
 
 			getSubStringText(text, len) {
