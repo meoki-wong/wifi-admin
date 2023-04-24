@@ -66,6 +66,7 @@
 									<view>
 										<radio
 											:value="item.value"
+											:checked="true"
 										/>
 									</view>
 									<view class="itemName">{{ item.name }}</view>
@@ -128,7 +129,7 @@ export default {
 		return {
 			pwd_show: true,
 			info: {
-				rule: "",
+				rule: 2,
 				sexy: 1,
 				topRule: "",
 				address: "",
@@ -147,10 +148,6 @@ export default {
 				}
 			],
 			userList: [
-				{
-					name: '代理',
-					value: 3
-				},
 				{
 					name: '商户',
 					value: 2

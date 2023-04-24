@@ -406,10 +406,8 @@
 				uni.setClipboardData({
 					data: this.roleNumber,
 					success: (res) => {
-						this.$tip.success('复制成功!')
 					},
 					fail: (res) => {
-						this.$tip.success('复制失败!')
 					},
 				});
 			},

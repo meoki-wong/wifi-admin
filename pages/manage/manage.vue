@@ -38,7 +38,7 @@
 			<scroll-view scroll-y class="page">
 				<image src="/static/img/ads.jpeg" mode="widthFix" class="response"></image>
 				<view class="nav-list">
-					<navigator hover-class="none" :url="'/pages/bladderData/' + item.name" class="nav-li" navigateTo
+					<navigator v-if="role != 2" hover-class="none" :url="'/pages/bladderData/' + item.name" class="nav-li" navigateTo
 						:class="'bg-'+item.color" :style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
 						v-for="(item,index) in elements1" :key="index">
 						<view class="nav-title">{{item.title}}</view>
@@ -46,7 +46,7 @@
 						<text :class="'cuIcon-' + item.cuIcon"></text>
 					</navigator>
 
-					<navigator hover-class="none" :url="'/pages/urineData/' + item.name" class="nav-li" navigateTo
+					<navigator v-if="role == 1" hover-class="none" :url="'/pages/urineData/' + item.name" class="nav-li" navigateTo
 						:class="'bg-'+item.color" :style="[{animation: 'show ' + ((index+1)*0.2+1) + 's 1'}]"
 						v-for="(item,index) in elements2" :key="index">
 						<view class="nav-title">{{item.title}}</view>
@@ -78,7 +78,8 @@
 					color: 'red',
 					cuIcon: 'newsfill',
 					auth: 'ac'
-				}]
+				}],
+				role: 2
 			}
 		},
 		// onUnload：监听页面的卸载
@@ -94,6 +95,9 @@
 		onLoad() {
 			// this.getPicsCate()
 
+		},
+		onShow(){
+			this.role = uni.getStorageSync('userInfo').role_type
 		}
 	}
 </script>
